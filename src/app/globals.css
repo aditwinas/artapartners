@@ -1,0 +1,7 @@
+@font-face{font-family:Geist;src:url('https://getdesign.md/fonts/Geist-Variable.woff2') format('woff2');font-weight:100 900;font-display:swap}
+@font-face{font-family:GeistMono;src:url('https://getdesign.md/fonts/GeistMono-Variable.woff2') format('woff2');font-weight:100 900;font-display:swap}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+:root{color-scheme:light;--ink:#141416;--muted:#666a73;--line:#e7e7e4;--paper:#fbfaf7;--soft:#f3f1eb;--gold:#a87a2d;--gold-soft:#efe2c7;--blue:#1f3d55}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Geist,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--paper);color:var(--ink);font-feature-settings:'liga' 1,'calt' 1}code,.mono{font-family:GeistMono,ui-monospace,SFMono-Regular,Menlo,monospace}.grid-bg{background-image:linear-gradient(rgba(20,20,22,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(20,20,22,.045) 1px,transparent 1px);background-size:48px 48px}.hairline{box-shadow:inset 0 0 0 1px rgba(20,20,22,.08)}::selection{background:rgba(168,122,45,.22)}
