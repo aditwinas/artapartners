@@ -1,7 +1,36 @@
-@font-face{font-family:Geist;src:url('https://getdesign.md/fonts/Geist-Variable.woff2') format('woff2');font-weight:100 900;font-display:swap}
-@font-face{font-family:GeistMono;src:url('https://getdesign.md/fonts/GeistMono-Variable.woff2') format('woff2');font-weight:100 900;font-display:swap}
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Hedvig+Letters+Sans&family=Numans&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-:root{color-scheme:light;--ink:#141416;--muted:#666a73;--line:#e7e7e4;--paper:#fbfaf7;--soft:#f3f1eb;--gold:#a87a2d;--gold-soft:#efe2c7;--blue:#1f3d55}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Geist,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--paper);color:var(--ink);font-feature-settings:'liga' 1,'calt' 1}code,.mono{font-family:GeistMono,ui-monospace,SFMono-Regular,Menlo,monospace}.grid-bg{background-image:linear-gradient(rgba(20,20,22,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(20,20,22,.045) 1px,transparent 1px);background-size:48px 48px}.hairline{box-shadow:inset 0 0 0 1px rgba(20,20,22,.08)}::selection{background:rgba(168,122,45,.22)}
+
+:root{
+  color-scheme:light;
+  --accent:#2E6CF1;
+  --bg:#F5F5F5;
+  --surface:#FFFFFF;
+  --ink:#1F1F1F;
+  --muted:#666666;
+  --blue-a:#1E3EAB;
+  --blue-b:#121C64;
+  --line:rgba(31,31,31,.10);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:'DM Sans',ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  background:var(--bg);
+  color:var(--ink);
+  font-feature-settings:'liga' 1,'calt' 1;
+}
+.heading-alt{font-family:'Hedvig Letters Sans',ui-serif,serif}
+.button-font{font-family:'Numans','DM Sans',sans-serif}
+.muted{color:var(--muted)}
+.gradient-blue{background:linear-gradient(135deg,var(--blue-a) 0%,#264BC2 42%,var(--blue-b) 100%)}
+.hairline{box-shadow:inset 0 0 0 1px var(--line)}
+.soft-grid{background-image:radial-gradient(rgba(46,108,241,.12) 1px,transparent 1px);background-size:24px 24px}
+.arta-mark{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--blue-a),var(--blue-b))}
+.arta-mark:before,.arta-mark:after{content:"";position:absolute;background:#fff;border-radius:999px;opacity:.95}
+.arta-mark:before{width:54%;height:54%;left:-27%;top:-27%;box-shadow:100% 0 0 #fff,0 100% 0 #fff,100% 100% 0 #fff}
+.arta-mark:after{width:30%;height:30%;left:35%;top:35%;background:linear-gradient(135deg,#fff,rgba(255,255,255,.2));transform:rotate(45deg);border-radius:6px}
+::selection{background:rgba(46,108,241,.18)}
