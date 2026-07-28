@@ -75,7 +75,10 @@ export default function Home() {
         <nav className="hidden items-center gap-7 text-sm text-[#666666] lg:flex">
           {nav.map(n => <a href={`#${n.toLowerCase().replaceAll(' ', '-')}`} className="transition hover:text-[#2E6CF1]" key={n}>{n}</a>)}
         </nav>
-        <Button href="#contact" variant="dark">Contact</Button>
+        <div className="flex items-center gap-2">
+          <a href="/business-checkup/" className="button-font hidden rounded-full border border-[#2E6CF1]/25 bg-white px-5 py-3 text-sm text-[#2E6CF1] transition hover:bg-[#2E6CF1] hover:text-white md:inline-flex">Business Checkup</a>
+          <Button href="#contact" variant="dark">Contact</Button>
+        </div>
       </div>
     </header>
 
