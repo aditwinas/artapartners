@@ -152,7 +152,7 @@ export default function BusinessCheckupPage() {
     return `Halo ARTA Partners, saya ingin konsultasi Business Health Check.\n\nNama: ${profile.name || '-'}\nBrand/Bisnis: ${profile.brand || '-'}\nRole: ${profile.role || '-'}\nWhatsApp: ${profile.whatsapp || '-'}\n\nGoal bisnis 6-12 bulan:\n${profile.goal || '-'}\n\nKondisi/masalah saat ini:\n${profile.condition || '-'}\n\nPart 1 - Business General yang saya pilih:\n${general}\n\nTopik khusus yang ingin dibahas:\n${special}`;
   }, [profile, selectedGeneral, selectedSpecial]);
 
-  const waHref = `https://wa.me/628112676002?text=${encodeURIComponent(summary)}`;
+  const waHref = `https://wa.me/6282134702388?text=${encodeURIComponent(summary)}`;
 
   const toggleGeneral = (id: string) => setGeneralIds(prev => prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]);
   const toggleSpecial = (id: string) => setSpecialIds(prev => prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]);
