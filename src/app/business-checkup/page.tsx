@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { ArrowLeft, ArrowRight, BarChart3, BriefcaseBusiness, Check, CheckCircle2, ClipboardList, Coins, Copy, LineChart, MessageCircle, Palette, ShieldCheck, Sparkles, Users, Workflow, Zap } from 'lucide-react';
 
 type Topic = {
@@ -137,6 +137,7 @@ function TopicCard({ topic, selected, onToggle, compact = false }: { topic: Topi
 
 export default function BusinessCheckupPage() {
   const [step, setStep] = useState(1);
+  const questionSectionRef = useRef<HTMLElement | null>(null);
   const [profile, setProfile] = useState({ name: '', brand: '', role: '', whatsapp: '', goal: '', condition: '' });
   const [generalIds, setGeneralIds] = useState<string[]>([]);
   const [specialIds, setSpecialIds] = useState<string[]>([]);
@@ -157,6 +158,13 @@ export default function BusinessCheckupPage() {
   const toggleGeneral = (id: string) => setGeneralIds(prev => prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]);
   const toggleSpecial = (id: string) => setSpecialIds(prev => prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]);
 
+  function goToStep(nextStep: number) {
+    setStep(nextStep);
+    window.requestAnimationFrame(() => {
+      questionSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  }
+
   async function copySummary() {
     await navigator.clipboard.writeText(summary);
     setCopied(true);
@@ -168,7 +176,7 @@ export default function BusinessCheckupPage() {
       <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4">
         <a href="/" aria-label="Back to ARTA home"><Logo /></a>
         <div className="hidden items-center gap-2 rounded-full bg-white p-1 text-xs text-[#666666] shadow-sm md:flex">
-          {[1, 2, 3].map(n => <button key={n} onClick={() => n === 1 || canContinue ? setStep(n) : undefined} className={`rounded-full px-4 py-2 transition ${step === n ? 'bg-[#1F1F1F] text-white' : 'hover:bg-[#F5F5F5]'}`}>{n === 1 ? 'Business General' : n === 2 ? 'Topik Khusus' : 'Summary'}</button>)}
+          {[1, 2, 3].map(n => <button key={n} onClick={() => n === 1 || canContinue ? goToStep(n) : undefined} className={`rounded-full px-4 py-2 transition ${step === n ? 'bg-[#1F1F1F] text-white' : 'hover:bg-[#F5F5F5]'}`}>{n === 1 ? 'Business General' : n === 2 ? 'Topik Khusus' : 'Summary'}</button>)}
         </div>
         <a href="/" className="button-font inline-flex items-center gap-2 rounded-full border border-[#1F1F1F]/10 bg-white px-4 py-2.5 text-sm transition hover:border-[#2E6CF1]/40 hover:text-[#2E6CF1]"><ArrowLeft className="h-4 w-4" /> Home</a>
       </div>
@@ -182,7 +190,7 @@ export default function BusinessCheckupPage() {
           <h1 className="heading-alt mt-6 max-w-4xl text-5xl leading-[.98] tracking-[-.045em] md:text-7xl">Temukan bottleneck bisnis sebelum sesi konsultasi.</h1>
           <p className="mt-7 max-w-2xl text-lg leading-8 text-white/66">Isi Part 1 Business General terlebih dulu, lalu pilih topik khusus yang paling menggambarkan problem brand Anda. Hasilnya menjadi brief awal untuk konsultasi bersama ARTA Partners.</p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <button onClick={() => setStep(1)} className="button-font inline-flex items-center gap-2 rounded-full bg-[#2E6CF1] px-6 py-3.5 text-sm text-white transition hover:bg-[#1E3EAB]">Mulai Checkup <ArrowRight className="h-4 w-4" /></button>
+            <button onClick={() => goToStep(1)} className="button-font inline-flex items-center gap-2 rounded-full bg-[#2E6CF1] px-6 py-3.5 text-sm text-white transition hover:bg-[#1E3EAB]">Mulai Checkup <ArrowRight className="h-4 w-4" /></button>
             <a href="#how-it-works" className="button-font inline-flex items-center gap-2 rounded-full border border-white/18 bg-white/10 px-6 py-3.5 text-sm text-white backdrop-blur transition hover:bg-white/18">Cara Kerja</a>
           </div>
         </div>
@@ -214,7 +222,7 @@ export default function BusinessCheckupPage() {
       </div>
     </section>
 
-    <section className="mx-auto max-w-7xl px-5 py-14 md:py-20">
+    <section ref={questionSectionRef} className="mx-auto scroll-mt-24 max-w-7xl px-5 py-14 md:py-20">
       {step === 1 && <div>
         <div className="mb-9 grid gap-6 lg:grid-cols-[.75fr_1.25fr]">
           <div>
@@ -236,7 +244,7 @@ export default function BusinessCheckupPage() {
         </div>
         <div className="mt-8 flex flex-col items-start justify-between gap-4 rounded-[28px] bg-[#1F1F1F] p-5 text-white md:flex-row md:items-center">
           <p className="leading-7 text-white/70">Pilih minimal satu Business General dan lengkapi field wajib untuk lanjut ke topik khusus.</p>
-          <button disabled={!canContinue} onClick={() => setStep(2)} className="button-font inline-flex items-center gap-2 rounded-full bg-[#2E6CF1] px-6 py-3.5 text-sm text-white transition hover:bg-[#1E3EAB] disabled:cursor-not-allowed disabled:bg-white/20 disabled:text-white/45">Lanjut Pilih Topik <ArrowRight className="h-4 w-4" /></button>
+          <button disabled={!canContinue} onClick={() => goToStep(2)} className="button-font inline-flex items-center gap-2 rounded-full bg-[#2E6CF1] px-6 py-3.5 text-sm text-white transition hover:bg-[#1E3EAB] disabled:cursor-not-allowed disabled:bg-white/20 disabled:text-white/45">Lanjut Pilih Topik <ArrowRight className="h-4 w-4" /></button>
         </div>
       </div>}
 
@@ -254,8 +262,8 @@ export default function BusinessCheckupPage() {
           </div>)}
         </div>
         <div className="mt-8 flex flex-wrap justify-between gap-3">
-          <button onClick={() => setStep(1)} className="button-font inline-flex items-center gap-2 rounded-full border border-[#1F1F1F]/10 bg-white px-6 py-3.5 text-sm transition hover:border-[#2E6CF1]/40 hover:text-[#2E6CF1]"><ArrowLeft className="h-4 w-4" /> Kembali</button>
-          <button onClick={() => setStep(3)} className="button-font inline-flex items-center gap-2 rounded-full bg-[#2E6CF1] px-6 py-3.5 text-sm text-white transition hover:bg-[#1E3EAB]">Lihat Summary <ArrowRight className="h-4 w-4" /></button>
+          <button onClick={() => goToStep(1)} className="button-font inline-flex items-center gap-2 rounded-full border border-[#1F1F1F]/10 bg-white px-6 py-3.5 text-sm transition hover:border-[#2E6CF1]/40 hover:text-[#2E6CF1]"><ArrowLeft className="h-4 w-4" /> Kembali</button>
+          <button onClick={() => goToStep(3)} className="button-font inline-flex items-center gap-2 rounded-full bg-[#2E6CF1] px-6 py-3.5 text-sm text-white transition hover:bg-[#1E3EAB]">Lihat Summary <ArrowRight className="h-4 w-4" /></button>
         </div>
       </div>}
 
@@ -278,7 +286,7 @@ export default function BusinessCheckupPage() {
             </div>
             <button onClick={copySummary} className="button-font flex w-full items-center justify-center gap-2 rounded-full border border-[#1F1F1F]/10 bg-white px-6 py-3.5 text-sm transition hover:border-[#2E6CF1]/40 hover:text-[#2E6CF1]"><Copy className="h-4 w-4" /> {copied ? 'Summary Tersalin' : 'Copy Summary'}</button>
             <a href={waHref} target="_blank" rel="noreferrer" className="button-font flex w-full items-center justify-center gap-2 rounded-full bg-[#2E6CF1] px-6 py-3.5 text-sm text-white transition hover:bg-[#1E3EAB]"><MessageCircle className="h-4 w-4" /> Kirim ke WhatsApp ARTA</a>
-            <button onClick={() => setStep(2)} className="button-font flex w-full items-center justify-center gap-2 rounded-full border border-[#1F1F1F]/10 bg-white px-6 py-3.5 text-sm transition hover:border-[#2E6CF1]/40 hover:text-[#2E6CF1]"><ArrowLeft className="h-4 w-4" /> Edit Topik</button>
+            <button onClick={() => goToStep(2)} className="button-font flex w-full items-center justify-center gap-2 rounded-full border border-[#1F1F1F]/10 bg-white px-6 py-3.5 text-sm transition hover:border-[#2E6CF1]/40 hover:text-[#2E6CF1]"><ArrowLeft className="h-4 w-4" /> Edit Topik</button>
           </div>
         </div>
       </div>}
