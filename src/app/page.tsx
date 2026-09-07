@@ -1,38 +1,10 @@
-import { ArrowRight, BarChart3, Building2, CheckCircle2, ChevronRight, CircleDollarSign, Compass, Layers3, LineChart, Mail, MapPin, ShieldCheck, Sparkles, Target, Workflow, Zap } from 'lucide-react';
+import { ArrowRight, BarChart3, Building2, ChevronRight, CircleDollarSign, Compass, Layers3, LineChart, Mail, MapPin, ShieldCheck, Sparkles, Workflow, Zap } from 'lucide-react';
+
+import { getSiteContent } from '@/lib/sanity';
+import type { CmsIconKey } from '@/lib/site-content';
 
 const nav = ['About', 'What We Do', 'Solutions', 'Ecosystem', 'Investment', 'Culture', 'Contact'];
-const stats = [
-  ['01', 'Business Checkup'],
-  ['05', 'Brand Ecosystem'],
-  ['360°', 'Growth Operations'],
-  ['ID', 'Indonesia Market'],
-];
-const steps = [
-  ['Identify', 'Business Checkup', 'Membaca performa, operasional, keuangan, pasar, customer behavior, brand positioning, dan peluang pertumbuhan.', Compass],
-  ['Partner', 'Strategic Collaboration', 'Membangun kerja sama strategis dengan brand, owner, investor, partner lokasi, komunitas, dan stakeholder.', Building2],
-  ['Accelerate', 'Development & Booster', 'Mempercepat pertumbuhan melalui sistem, marketing, operasional, finansial, development, dan eksekusi terukur.', Zap],
-];
-const solutions = [
-  ['ARTAinsight', 'Strategic Consulting', 'Keputusan yang lebih tajam, realistis, dan berbasis data.', BarChart3],
-  ['ARTAknowledge', 'Digital Product Enablement', 'Knowledge, template, sistem kerja, dan digital tools agar bisnis lebih rapi.', Workflow],
-  ['ARTAcore', 'Financial & Operational System', 'Financial, operational, reporting, dan backend management untuk scale up.', ShieldCheck],
-  ['ARTAos™', 'Full Service 360 Management', 'Manajemen end-to-end untuk operasional, finance, marketing, creative, dan development.', Layers3],
-  ['ARTAccelerate', 'Marketing & Development Booster', 'Campaign, aktivasi, pengembangan pasar, dan akuisisi pelanggan.', LineChart],
-];
-const brands = [
-  ['Sebelas Coffee', 'F&B', 'Coffee shop accessible untuk anak muda, mahasiswa, pelajar, pekerja muda, dan komunitas.'],
-  ['Snapobox', 'Photobox', 'Pengalaman foto instan di coffee shop, lifestyle space, area kampus, dan pusat keramaian.'],
-  ['Tunas Mekar Dental', 'Dental & Health', 'B2B dental, distribusi produk, support pembukaan klinik, dan health-related business.'],
-  ['Balcos Compound', 'Commercial Compound', 'Lifestyle compound untuk komunitas, tenant, event, dan traffic-based activity.'],
-  ['Zona Massage', 'Wellness', 'Wellness dan body care melalui massage, homecare, retention, dan customer experience.'],
-];
-const focus = [
-  'Expansion CAPEX: outlet, booth, box, equipment, renovation, dan aset produktif.',
-  'Technology & Shared Service: sistem, tools, reporting, dashboard, dan workflow internal.',
-  'Working Capital & Reserve: cadangan operasional untuk stabilitas cash flow.',
-];
-const impact = ['Inisiatif', 'Mutual', 'Praktis', 'Adaptif', 'Cerdas', 'Tuntas'];
-const cermat = ['Cari akar masalah', 'Efektifkan proses', 'Rinci dan rapi', 'Mengukur dampak', 'Akurat', 'Teliti'];
+const iconMap = { compass: Compass, building: Building2, zap: Zap, chart: BarChart3, workflow: Workflow, shield: ShieldCheck, layers: Layers3, growth: LineChart } satisfies Record<CmsIconKey, typeof Compass>;
 
 function Logo({ light = false }: { light?: boolean }) {
   return <div className="flex items-center gap-3">
@@ -64,10 +36,12 @@ function Card({ children, className = '' }: { children: React.ReactNode; classNa
   return <div className={`hairline rounded-[28px] bg-white p-6 md:p-7 ${className}`}>{children}</div>;
 }
 
-export default function Home() {
+export default async function Home() {
+  const content = await getSiteContent();
+
   return <main className="min-h-screen bg-[#F5F5F5] text-[#1F1F1F]">
     <div className="border-b border-[#1F1F1F]/10 bg-white px-4 py-2.5 text-center text-xs text-[#666666]">
-      ARTA Partners — trusted strategic partner dedicated to sustainable growth.
+      {content.announcement}
     </div>
     <header className="sticky top-0 z-50 border-b border-[#1F1F1F]/10 bg-[#F5F5F5]/88 backdrop-blur-xl">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4">
@@ -87,16 +61,16 @@ export default function Home() {
       <img src="/brand/assets/ARTA-20.png" alt="ARTA pattern" className="absolute right-[-9%] top-20 hidden w-[420px] rounded-[42px] opacity-28 blur-[1px] lg:block" />
       <div className="relative mx-auto grid max-w-7xl gap-12 px-5 py-20 md:py-28 lg:grid-cols-[1.05fr_.95fr] lg:items-center">
         <div>
-          <Badge light>The Strategic Brand Partner</Badge>
+          <Badge light>{content.hero.eyebrow}</Badge>
           <h1 className="heading-alt mt-6 max-w-5xl text-5xl leading-[.98] tracking-[-.045em] md:text-7xl lg:text-[86px]">
-            Partner strategis untuk brand yang siap bertumbuh lebih rapi, kuat, dan berkelanjutan.
+            {content.hero.title}
           </h1>
           <p className="mt-7 max-w-2xl text-lg leading-8 text-white/66">
-            ARTA Partners membantu brand potensial bertumbuh melalui business checkup, partnership, penguatan sistem, manajemen operasional, strategi finansial, marketing development, dan akselerasi bisnis yang terukur.
+            {content.hero.description}
           </p>
           <div className="mt-9 flex flex-wrap gap-3">
-            <Button href="#about">Kenali ARTA</Button>
-            <a href="#ecosystem" className="button-font inline-flex items-center justify-center gap-2 rounded-full border border-white/18 bg-white/10 px-6 py-3.5 text-sm text-white backdrop-blur transition hover:bg-white/18">Lihat Brand Kami <ArrowRight className="h-4 w-4" /></a>
+            <Button href="#about">{content.hero.primaryCta}</Button>
+            <a href="#ecosystem" className="button-font inline-flex items-center justify-center gap-2 rounded-full border border-white/18 bg-white/10 px-6 py-3.5 text-sm text-white backdrop-blur transition hover:bg-white/18">{content.hero.secondaryCta} <ArrowRight className="h-4 w-4" /></a>
           </div>
         </div>
         <div className="relative">
@@ -104,14 +78,14 @@ export default function Home() {
             <div className="rounded-[28px] bg-white p-5 text-[#1F1F1F]">
               <div className="flex items-center justify-between"><Logo /><span className="button-font rounded-full bg-[#F5F5F5] px-3 py-1.5 text-[11px] uppercase tracking-[.12em] text-[#666666]">Impact dashboard</span></div>
               <div className="mt-8 grid gap-3 sm:grid-cols-2">
-                {stats.map(([n, l], idx) => <div key={l} className={`${idx === 1 ? 'gradient-blue text-white' : 'bg-[#F5F5F5] text-[#1F1F1F]'} rounded-3xl p-5`}>
-                  <p className="text-5xl font-semibold tracking-[-.07em]">{n}</p>
-                  <p className={`button-font mt-2 text-xs uppercase tracking-[.13em] ${idx === 1 ? 'text-white/62' : 'text-[#666666]'}`}>{l}</p>
+                {content.stats.map(({ value, label }, idx) => <div key={label} className={`${idx === 1 ? 'gradient-blue text-white' : 'bg-[#F5F5F5] text-[#1F1F1F]'} rounded-3xl p-5`}>
+                  <p className="text-5xl font-semibold tracking-[-.07em]">{value}</p>
+                  <p className={`button-font mt-2 text-xs uppercase tracking-[.13em] ${idx === 1 ? 'text-white/62' : 'text-[#666666]'}`}>{label}</p>
                 </div>)}
               </div>
               <div className="mt-4 grid gap-3 md:grid-cols-[.9fr_1.1fr]">
-                <div className="rounded-3xl bg-[#F5F5F5] p-5"><p className="text-3xl font-semibold tracking-[-.06em]">4</p><p className="mt-2 text-sm leading-6 text-[#666666]">foundational pillars in seamless synergy.</p></div>
-                <div className="gradient-blue rounded-3xl p-5 text-white"><p className="text-sm font-semibold">Trusted Strategic Partner</p><p className="mt-2 text-sm leading-6 text-white/65">Dedicated to sustainable growth for high-potential brands.</p></div>
+                <div className="rounded-3xl bg-[#F5F5F5] p-5"><p className="text-3xl font-semibold tracking-[-.06em]">{content.dashboard.foundationValue}</p><p className="mt-2 text-sm leading-6 text-[#666666]">{content.dashboard.foundationText}</p></div>
+                <div className="gradient-blue rounded-3xl p-5 text-white"><p className="text-sm font-semibold">{content.dashboard.partnerTitle}</p><p className="mt-2 text-sm leading-6 text-white/65">{content.dashboard.partnerDescription}</p></div>
               </div>
             </div>
           </div>
@@ -121,91 +95,91 @@ export default function Home() {
     </section>
 
     <section id="about" className="mx-auto max-w-7xl px-5 py-20">
-      <SectionHead eyebrow="Who We Are" title="ARTA bukan agency, bukan holding pasif." text="ARTA adalah partner strategis yang ikut membangun, membenahi, dan mengakselerasi brand potensial." />
+      <SectionHead eyebrow={content.about.eyebrow} title={content.about.title} text={content.about.intro} />
       <div className="grid gap-5 lg:grid-cols-[1.25fr_.75fr]">
         <Card className="p-8 md:p-10">
-          <p className="heading-alt text-3xl leading-[1.25] tracking-[-.025em] md:text-5xl">Kami membantu brand membangun fondasi bisnis yang lebih kuat melalui strategi, sistem operasional, manajemen finansial, marketing, creative, development, dan eksekusi lintas fungsi.</p>
-          <p className="mt-7 max-w-3xl leading-8 text-[#666666]">Dengan pendekatan praktis, adaptif, dan berbasis data, ARTA membantu brand membaca peluang pasar, memperbaiki sistem internal, dan mengakselerasi pertumbuhan secara lebih terarah.</p>
+          <p className="heading-alt text-3xl leading-[1.25] tracking-[-.025em] md:text-5xl">{content.about.bodyTitle}</p>
+          <p className="mt-7 max-w-3xl leading-8 text-[#666666]">{content.about.bodyText}</p>
         </Card>
         <Card className="gradient-blue text-white">
-          <Badge light>Our Vision</Badge>
-          <p className="heading-alt mt-6 text-4xl leading-tight tracking-[-.035em]">Trusted Strategic Partner for Sustainable Growth.</p>
-          <p className="mt-6 leading-7 text-white/65">Empat pilar identitas ARTA bekerja dalam sinergi untuk memberi edge dan kompetensi dalam mengembangkan brand potensial.</p>
+          <Badge light>{content.about.visionEyebrow}</Badge>
+          <p className="heading-alt mt-6 text-4xl leading-tight tracking-[-.035em]">{content.about.visionTitle}</p>
+          <p className="mt-6 leading-7 text-white/65">{content.about.visionDescription}</p>
         </Card>
       </div>
     </section>
 
     <section id="what-we-do" className="border-y border-[#1F1F1F]/10 bg-white py-20">
       <div className="mx-auto max-w-7xl px-5">
-        <SectionHead eyebrow="What We Do" title="Identify. Partner. Accelerate." text="Tiga tahapan utama untuk membaca kondisi bisnis, membangun kolaborasi, lalu mengakselerasi pertumbuhan." />
+        <SectionHead eyebrow={content.workflow.eyebrow} title={content.workflow.title} text={content.workflow.description} />
         <div className="grid gap-5 md:grid-cols-3">
-          {steps.map(([title, sub, text, Icon]: any, i) => <Card key={title} className="relative overflow-hidden transition hover:-translate-y-1 hover:shadow-[0_24px_70px_rgba(31,31,31,.08)]">
+          {content.workflow.steps.map(({ title, subtitle, description, icon }, i) => { const Icon = iconMap[icon]; return <Card key={title} className="relative overflow-hidden transition hover:-translate-y-1 hover:shadow-[0_24px_70px_rgba(31,31,31,.08)]">
             <span className="absolute right-6 top-5 text-7xl font-semibold tracking-[-.08em] text-[#2E6CF1]/8">0{i + 1}</span>
             <div className="grid h-12 w-12 place-items-center rounded-2xl bg-[#2E6CF1] text-white"><Icon className="h-6 w-6" /></div>
             <h3 className="heading-alt mt-9 text-4xl tracking-[-.04em]">{title}</h3>
-            <p className="button-font mt-2 text-xs uppercase tracking-[.14em] text-[#2E6CF1]">{sub}</p>
-            <p className="mt-6 leading-7 text-[#666666]">{text}</p>
-          </Card>)}
+            <p className="button-font mt-2 text-xs uppercase tracking-[.14em] text-[#2E6CF1]">{subtitle}</p>
+            <p className="mt-6 leading-7 text-[#666666]">{description}</p>
+          </Card>; })}
         </div>
       </div>
     </section>
 
     <section id="solutions" className="mx-auto max-w-7xl px-5 py-20">
-      <SectionHead eyebrow="Business Solutions" title="Solusi bisnis modular, rapi, dan scalable." text="Dari strategic consulting hingga full-service 360 business management." />
+      <SectionHead eyebrow={content.solutions.eyebrow} title={content.solutions.title} text={content.solutions.description} />
       <div className="grid gap-4 lg:grid-cols-5">
-        {solutions.map(([name, type, text, Icon]: any) => <div key={name} className="rounded-[28px] border border-[#1F1F1F]/10 bg-white p-6 transition hover:border-[#2E6CF1]/45 hover:shadow-[0_18px_50px_rgba(46,108,241,.10)]">
+        {content.solutions.items.map(({ name, type, description, icon }) => { const Icon = iconMap[icon]; return <div key={name} className="rounded-[28px] border border-[#1F1F1F]/10 bg-white p-6 transition hover:border-[#2E6CF1]/45 hover:shadow-[0_18px_50px_rgba(46,108,241,.10)]">
           <Icon className="h-6 w-6 text-[#2E6CF1]" />
           <h3 className="mt-9 text-2xl font-semibold tracking-[-.035em]">{name}</h3>
           <p className="button-font mt-2 text-[11px] uppercase tracking-[.13em] text-[#666666]">{type}</p>
-          <p className="mt-5 text-sm leading-7 text-[#666666]">{text}</p>
-        </div>)}
+          <p className="mt-5 text-sm leading-7 text-[#666666]">{description}</p>
+        </div>; })}
       </div>
     </section>
 
     <section id="ecosystem" className="gradient-blue py-20 text-white">
       <div className="mx-auto max-w-7xl px-5">
-        <SectionHead eyebrow="Brand Ecosystem" title="Multi-brand ecosystem dengan operating depth." text="ARTA mengembangkan brand dari F&B, photobox, dental, commercial compound, hingga wellness." light />
+        <SectionHead eyebrow={content.ecosystem.eyebrow} title={content.ecosystem.title} text={content.ecosystem.description} light />
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {brands.map(([name, cat, text]) => <div key={name} className="rounded-[28px] border border-white/15 bg-white/10 p-6 backdrop-blur transition hover:bg-white/[.16]">
+          {content.brands.map(({ name, category, description }) => <div key={name} className="rounded-[28px] border border-white/15 bg-white/10 p-6 backdrop-blur transition hover:bg-white/[.16]">
             <div className="flex items-start justify-between gap-4">
-              <div><h3 className="text-2xl font-semibold tracking-[-.035em]">{name}</h3><p className="button-font mt-2 text-[11px] uppercase tracking-[.13em] text-white/58">{cat}</p></div>
+              <div><h3 className="text-2xl font-semibold tracking-[-.035em]">{name}</h3><p className="button-font mt-2 text-[11px] uppercase tracking-[.13em] text-white/58">{category}</p></div>
               <ChevronRight className="h-5 w-5 text-white/42" />
             </div>
-            <p className="mt-6 leading-7 text-white/68">{text}</p>
+            <p className="mt-6 leading-7 text-white/68">{description}</p>
           </div>)}
         </div>
       </div>
     </section>
 
     <section id="investment" className="mx-auto max-w-7xl px-5 py-20">
-      <SectionHead eyebrow="Investment with ARTA" title="Peluang investasi untuk ekspansi brand yang sudah berjalan." text="Untuk qualified investor yang ingin berpartisipasi dalam pertumbuhan ekosistem brand ARTA melalui struktur kerja sama resmi." />
+      <SectionHead eyebrow={content.investment.eyebrow} title={content.investment.title} text={content.investment.description} />
       <div className="grid gap-5 lg:grid-cols-[1.1fr_.9fr]">
         <Card className="p-8 md:p-10">
-          <p className="heading-alt text-3xl leading-tight tracking-[-.03em]">Fokus pendanaan ARTA bukan membangun bisnis dari nol atau sekadar “bakar uang”, tetapi mendukung ekspansi brand yang telah berjalan.</p>
-          <div className="mt-7 rounded-[24px] border border-[#2E6CF1]/20 bg-[#2E6CF1]/8 p-5 text-sm leading-7 text-[#666666]">Skema tersedia mulai dari Rp150.000.000 hingga Rp500.000.000 per slot. Detail yield, tenor, distribusi imbal hasil, dan mekanisme kerja sama diarahkan ke sesi diskusi resmi.</div>
-          <div className="mt-8 flex flex-wrap gap-3"><Button>Diskusi Investment</Button><Button variant="ghost">Request Investment Deck</Button></div>
+          <p className="heading-alt text-3xl leading-tight tracking-[-.03em]">{content.investment.lead}</p>
+          <div className="mt-7 rounded-[24px] border border-[#2E6CF1]/20 bg-[#2E6CF1]/8 p-5 text-sm leading-7 text-[#666666]">{content.investment.scheme}</div>
+          <div className="mt-8 flex flex-wrap gap-3"><Button>{content.investment.primaryCta}</Button><Button variant="ghost">{content.investment.secondaryCta}</Button></div>
         </Card>
-        <Card>{focus.map(x => <p key={x} className="mb-4 flex gap-3 leading-7 text-[#666666]"><CircleDollarSign className="mt-1 h-5 w-5 shrink-0 text-[#2E6CF1]" />{x}</p>)}<div className="mt-6 border-t border-[#1F1F1F]/10 pt-6"><Badge>Risk Mitigation</Badge><p className="mt-4 leading-7 text-[#666666]">Perjanjian notaris, cadangan dana / escrow account, dan laporan berkala kepada investor.</p></div></Card>
+        <Card>{content.investment.focusPoints.map(x => <p key={x} className="mb-4 flex gap-3 leading-7 text-[#666666]"><CircleDollarSign className="mt-1 h-5 w-5 shrink-0 text-[#2E6CF1]" />{x}</p>)}<div className="mt-6 border-t border-[#1F1F1F]/10 pt-6"><Badge>{content.investment.riskLabel}</Badge><p className="mt-4 leading-7 text-[#666666]">{content.investment.riskMitigation}</p></div></Card>
       </div>
     </section>
 
     <section id="culture" className="border-y border-[#1F1F1F]/10 bg-white py-20">
-      <div className="mx-auto max-w-7xl px-5"><SectionHead eyebrow="Culture & Values" title="IMPACT and CERMAT in every execution." text="Budaya kerja berorientasi dampak nyata, praktis, detail, dan terukur." /><div className="grid gap-5 lg:grid-cols-2"><Value title="IMPACT" items={impact} /><Value title="CERMAT" items={cermat} /></div></div>
+      <div className="mx-auto max-w-7xl px-5"><SectionHead eyebrow={content.culture.eyebrow} title={content.culture.title} text={content.culture.description} /><div className="grid gap-5 lg:grid-cols-2"><Value title={content.culture.impactTitle} items={content.culture.impactValues} /><Value title={content.culture.cermatTitle} items={content.culture.cermatValues} /></div></div>
     </section>
 
     <section id="contact" className="mx-auto max-w-7xl px-5 py-20">
       <div className="gradient-blue rounded-[36px] p-6 text-white md:p-10">
         <div className="grid gap-10 lg:grid-cols-[.9fr_1.1fr]">
-          <div><Badge light>Contact</Badge><h2 className="heading-alt mt-5 text-4xl leading-tight tracking-[-.04em] md:text-6xl">Let’s build sustainable growth together.</h2><p className="mt-6 max-w-lg leading-8 text-white/65">Untuk diskusi partnership, investment, kolaborasi brand, atau pengembangan bisnis bersama ARTA.</p><div className="mt-8 space-y-3 text-white/70"><p className="flex gap-3"><Mail className="h-5 w-5" />hello@artapartners.id</p><p className="flex gap-3"><MapPin className="h-5 w-5" />Jogja, Indonesia</p></div></div>
+          <div><Badge light>{content.contact.eyebrow}</Badge><h2 className="heading-alt mt-5 text-4xl leading-tight tracking-[-.04em] md:text-6xl">{content.contact.title}</h2><p className="mt-6 max-w-lg leading-8 text-white/65">{content.contact.description}</p><div className="mt-8 space-y-3 text-white/70"><p className="flex gap-3"><Mail className="h-5 w-5" />{content.contact.email}</p><p className="flex gap-3"><MapPin className="h-5 w-5" />{content.contact.location}</p></div></div>
           <form className="rounded-[28px] bg-white p-4 text-[#1F1F1F] md:p-6">
             <div className="grid gap-3 md:grid-cols-2"><Input label="Nama" /><Input label="Perusahaan / Brand" /><Input label="Nomor WhatsApp" /><Input label="Email" /><label className="md:col-span-2"><span className="text-sm font-semibold">Jenis kebutuhan</span><select className="mt-2 w-full rounded-2xl border border-[#1F1F1F]/10 bg-[#F5F5F5] px-4 py-3.5 outline-none"><option>Partnership</option><option>Investment</option><option>Brand Collaboration</option><option>Location Partnership</option><option>Career</option><option>Others</option></select></label><label className="md:col-span-2"><span className="text-sm font-semibold">Pesan</span><textarea className="mt-2 min-h-28 w-full rounded-2xl border border-[#1F1F1F]/10 bg-[#F5F5F5] px-4 py-3.5 outline-none" /></label></div>
-            <button className="button-font mt-5 inline-flex items-center gap-2 rounded-full bg-[#2E6CF1] px-6 py-3.5 text-sm text-white transition hover:bg-[#1E3EAB]">Contact ARTA <ArrowRight className="h-4 w-4" /></button>
+            <button className="button-font mt-5 inline-flex items-center gap-2 rounded-full bg-[#2E6CF1] px-6 py-3.5 text-sm text-white transition hover:bg-[#1E3EAB]">{content.contact.buttonLabel} <ArrowRight className="h-4 w-4" /></button>
           </form>
         </div>
       </div>
     </section>
 
-    <footer className="border-t border-[#1F1F1F]/10 px-5 py-8"><div className="mx-auto flex max-w-7xl flex-col gap-4 text-sm text-[#666666] md:flex-row md:items-center md:justify-between"><Logo /><p>Strategic Brand Partner untuk pertumbuhan bisnis yang tangguh dan berkelanjutan.</p></div></footer>
+    <footer className="border-t border-[#1F1F1F]/10 px-5 py-8"><div className="mx-auto flex max-w-7xl flex-col gap-4 text-sm text-[#666666] md:flex-row md:items-center md:justify-between"><Logo /><p>{content.footerText}</p></div></footer>
   </main>;
 }
 function Value({ title, items }: { title: string; items: string[] }) { return <Card><div className="flex items-center justify-between"><h3 className="heading-alt text-4xl tracking-[-.04em]">{title}</h3><Sparkles className="h-5 w-5 text-[#2E6CF1]" /></div><div className="mt-6 grid grid-cols-2 gap-2">{items.map(i => <div key={i} className="rounded-2xl border border-[#1F1F1F]/10 bg-[#F5F5F5] px-4 py-3 text-sm font-semibold">{i}</div>)}</div></Card>; }
