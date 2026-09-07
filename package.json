@@ -8,6 +8,7 @@
     "start": "next start",
     "test": "tsx --test src/**/*.test.ts",
     "cms": "sanity dev",
+    "cms:build": "sanity build && tsx scripts/verify-studio-build.ts",
     "cms:seed": "sanity exec scripts/seed-cms.ts",
     "cms:seed:reset": "SANITY_SEED_FORCE=1 sanity exec scripts/seed-cms.ts",
     "cms:deploy": "sanity deploy"

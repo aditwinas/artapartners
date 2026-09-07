@@ -4,12 +4,8 @@ import { visionTool } from '@sanity/vision';
 
 import { schemaTypes } from './src/sanity/schemaTypes';
 
-const projectId = process.env.SANITY_PROJECT_ID || process.env.SANITY_STUDIO_PROJECT_ID || process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
-const dataset = process.env.SANITY_DATASET || process.env.SANITY_STUDIO_DATASET || process.env.NEXT_PUBLIC_SANITY_DATASET || 'production';
-
-if (!projectId) {
-  throw new Error('Isi SANITY_PROJECT_ID atau NEXT_PUBLIC_SANITY_PROJECT_ID sebelum menjalankan CMS. Lihat CMS_SETUP.md.');
-}
+const projectId = process.env.SANITY_STUDIO_PROJECT_ID || '4yqg1ptd';
+const dataset = process.env.SANITY_STUDIO_DATASET || 'production';
 
 export default defineConfig({
   name: 'arta-partners',
