@@ -31,6 +31,9 @@ jobs:
         run: npm run build
         env:
           NEXT_TELEMETRY_DISABLED: '1'
+          NEXT_PUBLIC_SANITY_PROJECT_ID: ${{ vars.SANITY_PROJECT_ID }}
+          NEXT_PUBLIC_SANITY_DATASET: ${{ vars.SANITY_DATASET || 'production' }}
+          NEXT_PUBLIC_SANITY_API_VERSION: '2026-01-01'
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
