@@ -63,6 +63,6 @@ Tambahkan repository variables berikut di GitHub → Settings → Secrets and va
 - `SANITY_PROJECT_ID`
 - `SANITY_DATASET` dengan nilai `production`
 
-Workflow GitHub Pages sudah membaca kedua variable tersebut. Setelah konten dipublish, jalankan ulang workflow **Deploy ARTA Website to GitHub Pages** agar website mengambil konten terbaru.
+Workflow GitHub Pages sudah membaca kedua variable tersebut. Setelah konten dipublish, website otomatis melakukan sinkronisasi setiap 10 menit. GitHub dapat menunda scheduled workflow beberapa menit ketika antrean sedang ramai.
 
 > Tahap lanjutan yang direkomendasikan: pindahkan deployment website ke Vercel dan pasang webhook Sanity agar setiap klik Publish otomatis membangun website tanpa membuka GitHub Actions.
