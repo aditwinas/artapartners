@@ -1,5 +1,6 @@
 export type Brand = { slug: string; name: string; category: string; headline: string; description: string; city: string; founded: string; image: string; imageAlt: string; url: string; workOn: string };
 export type WebsiteContent = {
+  visual: { heroAlignment: string; heroSize: string; sectionSpacing: string; gradientStart: string; gradientEnd: string };
   heroTitle: string; heroDescription: string; overview: string; whatTitle: string;
   steps: { title: string; description: string; detail: string }[];
   brandsTitle: string; brandsIntro: string; brands: Brand[];
@@ -15,6 +16,7 @@ export type WebsiteContent = {
 
 // Approved copy: WEBSITE PAGE, C2:C16. Unknown facts stay unpublished.
 export const defaultWebsiteContent: WebsiteContent = {
+  visual: { heroAlignment: 'center', heroSize: 'large', sectionSpacing: 'spacious', gradientStart: '#1E3EAB', gradientEnd: '#121C64' },
   heroTitle: 'Dari Masalah Bisnis\nMenjadi Arah yang Jelas.',
   heroDescription: 'ARTA Partners membantu bisnis memahami masalah, menentukan prioritas, dan membangun strategi untuk pertumbuhan yang lebih sehat dan berkelanjutan.',
   overview: 'Bisnis yang baik adalah bisnis yang punya alasan untuk dipilih, dipercaya, dan terus bertumbuh.\nKarena itu, kami tidak hanya datang dengan ide.\nKami ikut membangun, menjalankan, dan bertumbuh.',
@@ -95,5 +97,12 @@ export function mergeWebsiteContent(incoming: unknown): WebsiteContent {
   content.brands = content.brands.map((brand, i) => { const slug = seen.has(brand.slug) ? `${brand.slug}-${i}` : brand.slug; seen.add(slug); return { ...brand, slug }; });
   content.officeMap = safeWebUrl(content.officeMap); content.officeImage = safeWebUrl(content.officeImage);
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(content.email)) content.email = defaultWebsiteContent.email;
+  const visual = content.visual;
+  if (!['left', 'center'].includes(visual.heroAlignment)) visual.heroAlignment = 'center';
+  if (!['medium', 'large'].includes(visual.heroSize)) visual.heroSize = 'large';
+  if (!['compact', 'spacious'].includes(visual.sectionSpacing)) visual.sectionSpacing = 'spacious';
+  for (const key of ['gradientStart', 'gradientEnd'] as const) {
+    if (!/^#[0-9a-f]{6}$/i.test(visual[key])) visual[key] = defaultWebsiteContent.visual[key];
+  }
   return content;
 }

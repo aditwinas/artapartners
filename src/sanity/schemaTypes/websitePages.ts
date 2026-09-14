@@ -9,6 +9,13 @@ const initialValue = Object.fromEntries(Object.entries(defaultWebsiteContent).ma
 export const websitePages = defineType({
   name: 'websitePages', title: 'Website — Home, About, Brands, Career', type: 'document', initialValue,
   fields: [
+    defineField({ name: 'visual', title: 'Pengaturan Visual', type: 'object', description: 'Ubah tampilan tanpa kode. Setelah Publish, website diperbarui oleh build terjadwal GitHub Pages; hasilnya tidak langsung muncul. Buka website untuk melihat hasil.', fields: [
+      defineField({ name: 'heroAlignment', title: 'Rata teks hero', type: 'string', options: { list: [{ title: 'Tengah', value: 'center' }, { title: 'Kiri', value: 'left' }], layout: 'radio' } }),
+      defineField({ name: 'heroSize', title: 'Ukuran judul hero', type: 'string', options: { list: [{ title: 'Besar', value: 'large' }, { title: 'Sedang', value: 'medium' }], layout: 'radio' } }),
+      defineField({ name: 'sectionSpacing', title: 'Jarak antarbagian', type: 'string', options: { list: [{ title: 'Lapang', value: 'spacious' }, { title: 'Ringkas', value: 'compact' }], layout: 'radio' } }),
+      defineField({ name: 'gradientStart', title: 'Warna awal gradient', type: 'string', description: 'Kode HEX, contoh #1E3EAB. Pilih warna gelap agar teks putih tetap terbaca.', validation: rule => rule.regex(/^#[0-9a-fA-F]{6}$/) }),
+      defineField({ name: 'gradientEnd', title: 'Warna akhir gradient', type: 'string', description: 'Kode HEX, contoh #121C64. Pilih warna gelap agar teks putih tetap terbaca.', validation: rule => rule.regex(/^#[0-9a-fA-F]{6}$/) }),
+    ] }),
     text('heroTitle', 'Home: judul utama (baris baru diperbolehkan)'), text('heroDescription', 'Home: pengantar hero'), text('overview', 'Home: overview'), text('whatTitle', 'Home: judul What We Do'),
     list('steps', 'Tahapan kerja', [text('title', 'Judul'), text('description', 'Ringkasan homepage'), text('detail', 'Penjelasan About Us')]),
     text('brandsTitle', 'Judul brand'), text('brandsIntro', 'Pengantar brand'),

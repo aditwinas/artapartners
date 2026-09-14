@@ -195,3 +195,12 @@ a:hover .link-arrow{transform:translate(3px,-3px)}
 .work-heading{display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:end;margin-block:65px 40px}.work-heading h2{color:var(--accent)}.work-heading p{color:var(--muted);max-width:360px}.work-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:40px 64px;margin-bottom:45px}.work-grid article{border-top:1px solid #ccd2e0;padding-top:22px}.work-grid h3{margin-block:18px}.work-grid p{color:var(--muted)}.brand-work{margin-top:28px;padding-top:20px;border-top:1px solid #ddd}.brand-work h4{margin:0 0 10px;color:var(--accent)}.brand-work p{font-size:15px;color:var(--muted)}
 .site-header a:focus-visible,.home-hero a:focus-visible,.site-footer a:focus-visible,.blue-section a:focus-visible{outline-color:#fff}
 @media(max-width:700px){.work-heading,.work-grid{grid-template-columns:1fr;gap:30px}.work-heading{margin-top:44px}}
+
+/* CMS visual presets: responsive defaults remain intact. */
+.arta-website[data-hero-align=center] .home-hero .eyebrow{text-align:center}
+.arta-website[data-hero-align=center] .home-hero h1{text-align:center;margin-inline:auto!important}
+.arta-website[data-hero-align=center] .hero-bottom{display:flex;flex-direction:column;align-items:center;gap:28px;text-align:center}
+.arta-website[data-hero-align=center] .hero-actions{align-items:center;justify-self:center;flex-direction:row;flex-wrap:wrap;justify-content:center;gap:20px 28px}
+.arta-website[data-hero-size=medium] .home-hero h1{font-size:clamp(48px,5.5vw,80px)}
+.arta-website[data-spacing=compact] .section{padding-block:72px}
+@media(max-width:700px){.arta-website[data-hero-size=medium] .home-hero h1{font-size:clamp(36px,9vw,60px)}.arta-website[data-spacing=compact] .section{padding-block:48px}.arta-website[data-hero-align=center] .hero-actions{flex-direction:column}}

@@ -1,3 +1,16 @@
+## Edit visual tanpa kode
+
+Buka https://arta-partners.sanity.studio/ → Website — 4 Halaman → Pengaturan Visual.
+
+- Rata teks hero: Tengah atau Kiri (default terbaru: Tengah).
+- Ukuran judul: Besar atau Sedang; ukuran ponsel menyesuaikan otomatis.
+- Jarak antarbagian: Lapang atau Ringkas.
+- Warna awal/akhir gradient: kode HEX enam digit. Gunakan warna gelap untuk keterbacaan teks putih.
+
+Klik Publish, lalu cek https://www.artapartners.id/. Ini pengaturan CMS, bukan editor drag-and-drop atau preview langsung. GitHub Pages membangun ulang pada jadwal otomatis; jadwal nominal 10 menit dapat terlambat di GitHub. Untuk segera memperbarui, buka Actions → Deploy ARTA Website to GitHub Pages → Run workflow di GitHub.
+
+Teks, URL gambar, urutan brand, profil tim, serta konten lainnya tetap diedit di dokumen yang sama. Perubahan posisi/layout di luar pilihan di atas memerlukan perubahan kode.
+
 ## Pembaruan materi September 2026
 
 Kolom REVISI pada tab WEBSITE PAGE menjadi acuan terbaru. Hero menggunakan gradient #1E3EAB → #121C64, headline rata kiri, dan CTA Business Checkup. About Us menampilkan How ARTA works with our brands sebagai pengganti Milestone. Profil brand memuat What we work on. Nilai Mutual tetap memakai materi sebelumnya karena revisinya masih kosong.

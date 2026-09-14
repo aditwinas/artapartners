@@ -27,3 +27,13 @@ test('brand overrides preserve all five brands and never inherit optional facts'
   assert.equal(c.brands[0].city, '');
   assert.equal(c.brands[0].founded, '');
 });
+
+test('visual settings accept supported presets and reject malformed CSS values', () => {
+  const c = mergeWebsiteContent({visual: {heroAlignment: 'left', heroSize: 'medium', sectionSpacing: 'compact', gradientStart: '#123456', gradientEnd: 'red;display:none'}});
+  assert.equal(c.visual.heroAlignment, 'left');
+  assert.equal(c.visual.heroSize, 'medium');
+  assert.equal(c.visual.sectionSpacing, 'compact');
+  assert.equal(c.visual.gradientStart, '#123456');
+  assert.equal(c.visual.gradientEnd, '#121C64');
+  assert.equal(mergeWebsiteContent({visual: {heroAlignment: 'invalid'}}).visual.heroAlignment, 'center');
+});

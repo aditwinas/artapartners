@@ -1,12 +1,14 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import type { ReactNode } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 import { SiteHeader } from './site-header';
 import type { Brand, WebsiteContent } from '@/lib/website-content';
 export function Arrow() { return <span aria-hidden="true" className="link-arrow">↗</span>; }
 export function TextLink({ href, children }: { href: string; children: ReactNode }) { return <Link className="text-link" href={href}>{children}<Arrow /></Link>; }
 export function Shell({ content, children }: { content: WebsiteContent; children: ReactNode }) {
-  return <div className="arta-website"><a className="skip-link" href="#main-content">Lewati ke konten</a><SiteHeader /><main id="main-content">{children}</main><footer className="site-footer" id="contact">
+  const v = content.visual;
+  const style = { '--arta-gradient': `linear-gradient(115deg, ${v.gradientStart} 0%, ${v.gradientEnd} 100%)` } as CSSProperties;
+  return <div className="arta-website" style={style} data-hero-align={v.heroAlignment} data-hero-size={v.heroSize} data-spacing={v.sectionSpacing}><a className="skip-link" href="#main-content">Lewati ke konten</a><SiteHeader /><main id="main-content">{children}</main><footer className="site-footer" id="contact">
     <div className="container footer-top"><div><p className="eyebrow">LET’S GROW TOGETHER</p><h2>Punya potensi.<br />Mari kembangkan.</h2><a className="text-link" href={`mailto:${content.email}`}>Diskusikan Bisnis Anda<Arrow /></a></div><div className="footer-contact"><p>ARTA Partners</p><a href={`mailto:${content.email}`}>{content.email}</a><span>{content.officeLocation}</span><Link href="/business-checkup/">Business Checkup <Arrow /></Link></div></div>
     <div className="container footer-bottom"><Link href="/" aria-label="ARTA Partners — Home"><Image src="/brand/assets/ARTA-35.png" alt="ARTA Partners" width={176} height={24} /></Link><span>Strategic partner. Sustainable growth.</span><span>© {new Date().getFullYear()} ARTA Partners</span></div>
   </footer></div>;
