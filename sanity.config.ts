@@ -23,7 +23,7 @@ export default defineConfig({
             .child(S.document().schemaType('websitePages').documentId('websitePages')),
           S.listItem()
             .id('siteSettings')
-            .title('Konten Website ARTA')
+            .title('Arsip — Website Lama (tidak tampil di website)')
             .child(S.document().schemaType('siteSettings').documentId('siteSettings')),
         ]),
     }),

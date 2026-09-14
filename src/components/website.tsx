@@ -22,7 +22,7 @@ export function BrandVisual({ brand, index, priority = false }: { brand: Brand; 
   </div>;
 }
 export function BrandGrid({ content }: { content: WebsiteContent }) {
-  return <div className="brand-grid">{content.brands.map((brand, i) => <Link className="brand-card" href={`/our-brands/#${brand.slug}`} key={brand.slug}><BrandVisual brand={brand} index={i} /><div className="brand-caption"><div><h3>{brand.name}</h3><p>{brand.headline}</p></div><Arrow /></div></Link>)}</div>;
+  return <div className="brand-grid">{content.brands.map((brand, i) => <Link className="brand-card" href={`/our-brands/#${brand.slug}`} key={brand.slug}><BrandVisual brand={brand} index={i} /><div className="brand-caption"><div><h3>{brand.name}</h3><p>{brand.summary || brand.headline}</p></div><Arrow /></div></Link>)}</div>;
 }
 export function Process({ content, detailed = false }: { content: WebsiteContent; detailed?: boolean }) {
   return <ol className={`process-list ${detailed ? 'process-detailed' : ''}`}>{content.steps.map((step, i) => <li key={`${i}-${step.title}`}><span className="process-number">0{i + 1}</span><h3>{step.title}</h3><p>{detailed ? step.detail : step.description}</p></li>)}</ol>;
