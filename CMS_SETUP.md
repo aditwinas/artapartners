@@ -1,5 +1,28 @@
 # ARTA Partners CMS
 
+## Website empat halaman (September 2026)
+
+Home, About Us, Our Brands, dan Career menggunakan dokumen `websitePages`.
+Konten bawaan berasal dari tab WEBSITE PAGE pada workbook ARTA Partners [Landing Page].
+Dokumen lama `siteSettings` tetap tersimpan dan tidak ditimpa. Formulir kontak lama
+diganti dengan tautan email; tidak ada formulir yang seolah mengirim tanpa backend.
+
+Jalankan `npm run cms:deploy` untuk memperbarui schema Studio. Di Studio, buat
+menu **Website — 4 Halaman** (document ID **websitePages** sudah ditentukan).
+Nilai awal sudah berisi copy terbaru. Setelah Publish, build GitHub Pages berikutnya
+membaca dokumen tersebut. Bila dokumen belum ada, website memakai copy bawaan.
+
+Data yang belum tersedia dan sengaja tidak dipublikasikan: alamat lengkap dan Maps,
+foto kantor/tim/brand, jabatan pimpinan terkini, tahun bergabung tiap brand, serta
+data sebelum–sesudah Snapobox. Tahun berdiri Sebelas (2018) adalah satu-satunya
+milestone terverifikasi dalam workbook; roadmap bukan capaian. Nama tim dan
+foto dapat ditambahkan melalui field team setelah dikonfirmasi. Tanpa foto brand,
+website menampilkan panel tipografi berisi nama, bukan logo rekaan.
+
+Field image/officeImage menerima URL HTTPS aset resmi. URL brand, alamat Maps,
+dan tahun berdiri hanya tampil bila diisi. Daftar brand mengikuti urutan sheet terbaru.
+Business Checkup tetap tersedia di `/business-checkup/`.
+
 Website memakai **Sanity CMS**. Jika koneksi CMS belum diaktifkan, website tetap memakai konten bawaan sehingga halaman produksi tidak rusak.
 
 ## 1. Buat akun dan project Sanity

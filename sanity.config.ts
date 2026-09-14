@@ -18,6 +18,10 @@ export default defineConfig({
         .title('ARTA Partners CMS')
         .items([
           S.listItem()
+            .id('websitePages')
+            .title('Website — 4 Halaman')
+            .child(S.document().schemaType('websitePages').documentId('websitePages')),
+          S.listItem()
             .id('siteSettings')
             .title('Konten Website ARTA')
             .child(S.document().schemaType('siteSettings').documentId('siteSettings')),
