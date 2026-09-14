@@ -2,7 +2,7 @@ import {getCliClient} from 'sanity/cli';
 import {writeFileSync} from 'node:fs';
 import assert from 'node:assert/strict';
 import {defaultWebsiteContent} from '../src/lib/website-content';
-const client=getCliClient().withConfig({apiVersion:'2026-01-01',useCdn:false});
+const client=getCliClient().withConfig({apiVersion:'2026-01-01',useCdn:false,perspective:'raw'});
 const ids=['websitePages','drafts.websitePages'];
 const before=await client.fetch('*[_id in $ids]',{ids});
 writeFileSync('../website-content-before-sync.json',JSON.stringify(before,null,2));

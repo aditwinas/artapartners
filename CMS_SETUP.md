@@ -1,6 +1,6 @@
 ## Status materi Sanity
 
-Materi terbaru dari kolom REVISI sudah tersimpan dan dipublikasikan dalam dokumen `websitePages` (Website — 4 Halaman), bukan hanya sebagai initialValue skema atau fallback website. Semua 34 field diperiksa melalui readback API sesudah publikasi. Dokumen `siteSettings` adalah arsip website lama dan tidak dipakai oleh empat halaman baru.
+Materi terbaru dari kolom REVISI sudah tersimpan dan dipublikasikan dalam dokumen `websitePages` (Website — 4 Halaman), bukan hanya sebagai initialValue skema atau fallback website. Tambahan tim, alamat kantor, tautan Maps, dan judul What We Do dari draft editor juga sudah digabungkan serta dipublikasikan. Draft lama diselesaikan agar Studio membuka materi terpublikasi terbaru. Semua 34 field diperiksa melalui readback API sesudah publikasi. Dokumen `siteSettings` adalah arsip website lama dan tidak dipakai oleh empat halaman baru.
 
 Bagian What We Do memakai materi lengkap pada sheet; kartu homepage memakai ringkasan masing-masing brand, terpisah dari headline halaman detail. Pengaturan visual tetap rata tengah dan gradient #1E3EAB → #121C64.
 
