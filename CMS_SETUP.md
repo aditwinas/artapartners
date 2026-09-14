@@ -1,3 +1,7 @@
+## Pembaruan materi September 2026
+
+Kolom REVISI pada tab WEBSITE PAGE menjadi acuan terbaru. Hero menggunakan gradient #1E3EAB → #121C64, headline rata kiri, dan CTA Business Checkup. About Us menampilkan How ARTA works with our brands sebagai pengganti Milestone. Profil brand memuat What we work on. Nilai Mutual tetap memakai materi sebelumnya karena revisinya masih kosong.
+
 # ARTA Partners CMS
 
 ## Website empat halaman (September 2026)

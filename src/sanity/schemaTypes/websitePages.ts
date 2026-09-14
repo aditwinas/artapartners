@@ -9,15 +9,15 @@ const initialValue = Object.fromEntries(Object.entries(defaultWebsiteContent).ma
 export const websitePages = defineType({
   name: 'websitePages', title: 'Website — Home, About, Brands, Career', type: 'document', initialValue,
   fields: [
-    text('heroTitle', 'Home: judul utama (baris baru diperbolehkan)'), text('overview', 'Home: overview'), text('whatTitle', 'Home: judul What We Do'),
+    text('heroTitle', 'Home: judul utama (baris baru diperbolehkan)'), text('heroDescription', 'Home: pengantar hero'), text('overview', 'Home: overview'), text('whatTitle', 'Home: judul What We Do'),
     list('steps', 'Tahapan kerja', [text('title', 'Judul'), text('description', 'Ringkasan homepage'), text('detail', 'Penjelasan About Us')]),
     text('brandsTitle', 'Judul brand'), text('brandsIntro', 'Pengantar brand'),
-    list('brands', 'Brand — urutan tampilan', [defineField({ name: 'slug', title: 'ID tautan (huruf kecil dan tanda hubung)', type: 'string', validation: rule => rule.required().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/) }), text('name', 'Nama'), text('category', 'Kategori'), text('headline', 'Headline'), text('description', 'Deskripsi'), text('city', 'Kota', true), text('founded', 'Tahun berdiri terverifikasi', true), url('image', 'URL HTTPS foto resmi'), text('imageAlt', 'Deskripsi foto', true), url('url', 'Website / profil resmi')]),
+    list('brands', 'Brand — urutan tampilan', [defineField({ name: 'slug', title: 'ID tautan (huruf kecil dan tanda hubung)', type: 'string', validation: rule => rule.required().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/) }), text('name', 'Nama'), text('category', 'Kategori'), text('headline', 'Headline'), text('description', 'Deskripsi'), text('workOn', 'What we work on', true), text('city', 'Kota', true), text('founded', 'Tahun berdiri terverifikasi', true), url('image', 'URL HTTPS foto resmi'), text('imageAlt', 'Deskripsi foto', true), url('url', 'Website / profil resmi')]),
     text('teamTitle', 'Judul tim'), text('teamIntro', 'Pengantar tim'),
     list('team', 'Profil tim yang sudah dikonfirmasi (opsional)', [text('name', 'Nama'), text('role', 'Jabatan terkini'), url('image', 'URL HTTPS foto profil')], 0),
     text('visionTitle', 'Judul visi'), text('vision', 'Visi'), text('missionTitle', 'Judul misi'), text('missionIntro', 'Pengantar misi'),
     defineField({ name: 'missions', title: 'Misi', type: 'array', of: [{ type: 'string' }], validation: rule => rule.min(1) }),
-    text('processTitle', 'Judul proses'), text('milestoneTitle', 'Judul milestone'),
+    text('processTitle', 'Judul proses'), text('processIntro', 'Pengantar proses'), text('workTitle', 'Judul How ARTA works'), text('workIntro', 'Pengantar How ARTA works'), list('workAreas', 'Area kolaborasi brand', [text('title', 'Judul'), text('description', 'Penjelasan')]), text('milestoneTitle', 'Judul milestone'),
     list('milestones', 'Milestone yang sudah terjadi (bukan rencana)', [text('year', 'Tahun'), text('title', 'Capaian'), text('description', 'Penjelasan')]),
     text('officeTitle', 'Career: judul'), text('officeIntro', 'Career: pengantar'), text('officeLocation', 'Kota kantor'), text('officeAddress', 'Alamat lengkap terverifikasi', true), url('officeMap', 'Tautan Google Maps kantor'), url('officeImage', 'URL HTTPS foto kantor'),
     text('cultureTitle', 'Judul budaya'), text('cultureIntro', 'Pengantar budaya'),

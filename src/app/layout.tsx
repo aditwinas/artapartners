@@ -4,8 +4,8 @@ import './website.css';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.artapartners.id'),
-  title: { default: 'ARTA Partners — Membangun Brand, Bertumbuh Bersama', template: '%s | ARTA Partners' },
-  description: 'ARTA Partners mengakuisisi dan mengembangkan brand potensial melalui strategi, pendanaan, dan pengelolaan bisnis.',
+  title: { default: 'ARTA Partners — Dari Masalah Bisnis Menjadi Arah yang Jelas', template: '%s | ARTA Partners' },
+  description: 'ARTA Partners membantu bisnis memahami masalah, menentukan prioritas, dan membangun strategi untuk pertumbuhan yang lebih sehat dan berkelanjutan.',
   openGraph: { siteName: 'ARTA Partners', locale: 'id_ID', type: 'website' },
 };
 
