@@ -1,3 +1,4 @@
+import { resolveWebsiteImages } from './website-images';
 import { cache } from 'react';
 import { createSanityClient, isSanityConfigured, sanityClientConfig } from './sanity';
 import { defaultWebsiteContent, mergeWebsiteContent } from './website-content';
@@ -8,7 +9,8 @@ export const getWebsiteContent = cache(async () => {
   if (!isSanityConfigured) return defaultWebsiteContent;
   try {
     const client = createSanityClient(sanityClientConfig);
-    return mergeWebsiteContent(await client?.fetch(websiteQuery));
+    const document = await client?.fetch(websiteQuery);
+    return mergeWebsiteContent(resolveWebsiteImages(document, sanityClientConfig.projectId, sanityClientConfig.dataset));
   } catch {
     console.warn('Website CMS unavailable; using approved website copy.');
     return defaultWebsiteContent;

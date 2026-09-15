@@ -1,3 +1,9 @@
+## Upload foto langsung
+
+Buka Website — 4 Halaman, lalu buka item Brand atau Profil Tim dan pilih Upload Foto Brand / Upload Foto Profil. Foto kantor ada di Upload Foto Kantor. Klik Upload atau seret file JPG, PNG, WebP, atau AVIF, atur crop/titik fokus, lalu Publish. Sesudahnya jalankan workflow GitHub Pages bila ingin pembaruan segera.
+
+Foto tersimpan sebagai asset Sanity. Website membuat URL CDN dengan crop/titik fokus. Kolom URL foto lama disembunyikan untuk kompatibilitas, sedangkan URL website/Instagram dan Maps tetap berupa tautan. Perubahan ini tidak menimpa materi CMS.
+
 ## Status materi Sanity
 
 Materi terbaru dari kolom REVISI sudah tersimpan dan dipublikasikan dalam dokumen `websitePages` (Website — 4 Halaman), bukan hanya sebagai initialValue skema atau fallback website. Tambahan tim, alamat kantor, tautan Maps, dan judul What We Do dari draft editor juga sudah digabungkan serta dipublikasikan. Draft lama diselesaikan agar Studio membuka materi terpublikasi terbaru. Semua 34 field diperiksa melalui readback API sesudah publikasi. Dokumen `siteSettings` adalah arsip website lama dan tidak dipakai oleh empat halaman baru.
