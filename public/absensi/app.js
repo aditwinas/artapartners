@@ -8,7 +8,8 @@
   let staffNames = [], selectedName = '', matches = [], activeOption = -1;
   const action = () => form.elements.action.value;
   const dateLabel = () => { $('today').textContent = new Intl.DateTimeFormat('id-ID',{weekday:'long',day:'numeric',month:'long',year:'numeric',timeZone:'Asia/Jakarta'}).format(new Date()); };
-  dateLabel(); setInterval(dateLabel,60000);
+  const refreshClock = () => { dateLabel(); $('current-time').textContent = new Intl.DateTimeFormat('en-GB',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false,timeZone:'Asia/Jakarta'}).format(new Date()) + ' WIB'; };
+  refreshClock(); setInterval(refreshClock,1000);
   const showError = message => { $('error').textContent = message; $('error').hidden = false; };
   function sync() {
     $('location-field').hidden = form.elements.mode.value !== 'WFA';
@@ -133,7 +134,7 @@
       const result = await response.json();
       if (!result.ok) throw new Error(result.message || 'Absensi belum tersimpan. Hubungi HR.');
       form.hidden = true; $('success').hidden = false;
-      $('success-title').textContent = result.duplicate ? 'Absensi sudah tercatat' : 'Absensi berhasil';
+      $('success-title').textContent = result.duplicate ? 'Absensi sudah tercatat' : payload.action === 'in' ? 'Selamat bekerja 💪😍' : 'Selamat istirahat 👋☺️';
       $('receipt').textContent = `${result.name}\n${payload.action === 'in' ? 'Masuk' : 'Pulang'} · ${result.mode}\n${result.time} WIB\n${result.date}`;
       photo = ''; $('preview').removeAttribute('src'); $('preview').hidden = true;
     } catch (error) { showError(error instanceof TypeError || error.name === 'AbortError' ? 'Konfirmasi belum diterima. Coba kirim ulang; absensi ganda akan dicegah otomatis.' : error.message); }
