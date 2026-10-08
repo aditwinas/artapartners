@@ -105,11 +105,57 @@
   });
   video.addEventListener('loadeddata',()=>{ $('capture').disabled = !stream || !video.videoWidth; });
   $('cancel-camera').addEventListener('click',()=>{ stopCamera(); $('camera-status').textContent = 'Foto wajib saat masuk dan pulang.'; });
+  function drawWatermark(context, canvas, capturedAt) {
+    const mode = form.elements.mode.value;
+    const rows = [
+      'Nama: ' + selectedName,
+      'Tanggal: ' + new Intl.DateTimeFormat('id-ID',{day:'2-digit',month:'long',year:'numeric',timeZone:'Asia/Jakarta'}).format(capturedAt),
+      'Jam: ' + new Intl.DateTimeFormat('en-GB',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false,timeZone:'Asia/Jakarta'}).format(capturedAt) + ' WIB',
+      'Mode: ' + mode,
+      'Lokasi: ' + (mode === 'WFO' ? 'Kantor ARTA' : $('location').value.trim()),
+      'Absensi: ' + (action() === 'in' ? 'Masuk' : 'Pulang')
+    ];
+    const margin = Math.round(Math.min(canvas.width,canvas.height)*.025);
+    const padding = margin;
+    const maxWidth = canvas.width - margin*2 - padding*2;
+    let size = Math.min(canvas.width,canvas.height)*.033, lines;
+    context.save();
+    // Wrap long names/locations, including words without spaces, inside the photo.
+    do {
+      context.font = `600 ${size}px sans-serif`;
+      lines = [];
+      rows.forEach(row => {
+        let line = '';
+        for (const character of row) {
+          if (line && context.measureText(line+character).width > maxWidth) { lines.push(line); line = ''; }
+          line += character;
+        }
+        lines.push(line);
+      });
+      if (lines.length*size*1.35+padding*2 <= canvas.height*.44) break;
+      size *= .9;
+    } while (size > 1);
+    const lineHeight = size*1.35;
+    const width = Math.min(maxWidth,Math.max(...lines.map(line=>context.measureText(line).width)))+padding*2;
+    const height = lines.length*lineHeight+padding*2;
+    const top = canvas.height-margin-height;
+    context.fillStyle = 'rgba(0,0,0,0.64)';
+    context.fillRect(margin,top,width,height);
+    context.fillStyle = '#ffffff'; context.textAlign = 'left'; context.textBaseline = 'top';
+    lines.forEach((line,index)=>context.fillText(line,margin+padding,top+padding+index*lineHeight));
+    context.restore();
+  }
+  $('location').addEventListener('input',clearPhoto);
   $('capture').addEventListener('click',()=>{
     if (!stream || !video.videoWidth || video.readyState < 2) return showError('Tunggu hingga gambar kamera terlihat.');
+    if (!selectedName || $('name').value !== selectedName) return showError('Pilih nama staff sebelum mengambil foto.');
+    if (!['WFO','WFA'].includes(form.elements.mode.value)) return showError('Pilih WFO atau WFA sebelum mengambil foto.');
+    if (form.elements.mode.value === 'WFA' && !$('location').value.trim()) return showError('Isi lokasi WFA sebelum mengambil foto.');
+    const capturedAt = new Date();
     const scale = Math.min(1,1200/Math.max(video.videoWidth,video.videoHeight));
     const canvas = document.createElement('canvas'); canvas.width = Math.round(video.videoWidth*scale); canvas.height = Math.round(video.videoHeight*scale);
     const context = canvas.getContext('2d'); context.drawImage(video,0,0,canvas.width,canvas.height);
+    drawWatermark(context,canvas,capturedAt);
     const image = canvas.toDataURL('image/jpeg',.78);
     if (image.length > 2800000) return showError('Foto terlalu besar. Coba ambil ulang.');
     photo = image; $('preview').src = image; $('preview').hidden = false; stopCamera();
