@@ -61,6 +61,9 @@ function saveAttendance_(e, storage) {
       return json_({ok:true,duplicate:true,name,mode:String(existing[3]).startsWith('WFA')?'WFA':'WFO',date:Utilities.formatDate(received,TZ,'dd/MM/yyyy'),time});
     }
     if (p.action === 'out' && !findDay_(rows_(incoming),name,day)) fail_('Belum ada absen masuk hari ini. Hubungi HR jika bekerja melewati tengah malam.');
+    const row = target.getLastRow()+1;
+    const destination = target.getRange(row,1,1,6);
+    if (!destination.canEdit()) fail_('Sheet absensi dikunci. HR perlu memberi izin edit pada tab Absen Masuk dan Absen Keluar untuk akun pengelola aplikasi. Foto belum diunggah; kirim ulang setelah izin diperbaiki.');
     const location = p.mode === 'WFO' ? 'Kantor ARTA' : 'WFA — ' + p.location.trim();
     let photoUrl = '';
     {
@@ -75,8 +78,7 @@ function saveAttendance_(e, storage) {
     const midnight = Utilities.parseDate(day,TZ,'yyyy-MM-dd');
     const clock = Utilities.formatDate(received,TZ,'HH:mm:ss').split(':').map(Number);
     const fraction = (clock[0]*3600+clock[1]*60+clock[2])/86400;
-    const row = target.getLastRow()+1;
-    target.getRange(row,1,1,6).setValues([[received,safeText_(name),midnight,safeText_(location),fraction,photoUrl]]);
+    destination.setValues([[received,safeText_(name),midnight,safeText_(location),fraction,photoUrl]]);
     // Google Form response tables have typed columns. Preserve their formatting:
     // setNumberFormat is forbidden and can abort the pending row write.
     SpreadsheetApp.flush();
