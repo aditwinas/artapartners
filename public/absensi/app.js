@@ -180,8 +180,10 @@
       const result = await response.json();
       if (!result.ok) throw new Error(result.message || 'Absensi belum tersimpan. Hubungi HR.');
       form.hidden = true; $('success').hidden = false;
-      $('success-title').textContent = payload.action === 'in' ? 'Selamat bekerja 💪😍' : 'Selamat istirahat 👋☺️';
-      $('receipt').textContent = `${result.duplicate ? 'Absensi sudah tercatat sebelumnya.\n' : ''}${result.name}\n${payload.action === 'in' ? 'Masuk' : 'Pulang'} · ${result.mode}\n${result.time} WIB\n${result.date}`;
+      $('success-title').textContent = result.duplicate
+        ? (payload.action === 'in' ? 'Sudah absen masuk' : 'Sudah absen pulang')
+        : (payload.action === 'in' ? 'Selamat bekerja 💪😍' : 'Selamat istirahat 👋☺️');
+      $('receipt').textContent = `${result.duplicate ? 'Kamu sudah absen hari ini dan tidak bisa mengulangi. Jam dan foto sebelumnya tetap tersimpan.\n\n' : ''}${result.name}\n${payload.action === 'in' ? 'Masuk' : 'Pulang'} · ${result.mode}\n${result.time} WIB\n${result.date}`;
       photo = ''; $('preview').removeAttribute('src'); $('preview').hidden = true;
     } catch (error) { showError(error instanceof TypeError || error.name === 'AbortError' ? 'Konfirmasi belum diterima. Coba kirim ulang; absensi ganda akan dicegah otomatis.' : error.message); }
     finally { clearTimeout(timeout); busy = false; $('fields').disabled = false; sync(); }
