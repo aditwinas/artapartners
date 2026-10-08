@@ -30,7 +30,9 @@ function doGet(e) {
     return json_({ok:true,service:'ARTA attendance',version:2});
   } catch (error) { return json_({ok:false,message:error.publicMessage || 'Daftar staff belum dapat dimuat. Hubungi HR.'}); }
 }
-function doPost(e) {
+function doPost(e) { return saveAttendance_(e); }
+// Optional storage is used only by editor-run integration tests, never by web requests.
+function saveAttendance_(e, storage) {
   const received = new Date();
   const lock = LockService.getScriptLock();
   let locked = false;
@@ -40,13 +42,13 @@ function doPost(e) {
     validate_(p);
     const props = PropertiesService.getScriptProperties();
     const id = props.getProperty('SPREADSHEET_ID');
-    const folderId = props.getProperty('PHOTO_FOLDER_ID');
+    const folderId = storage ? storage.folderId : props.getProperty('PHOTO_FOLDER_ID');
     if (!id || !folderId) fail_('Sistem belum diaktifkan. Hubungi HR.');
     locked = lock.tryLock(20000); if (!locked) fail_('Sistem sedang sibuk. Coba kirim ulang beberapa saat lagi.');
-    const book = SpreadsheetApp.openById(id);
-    const staffSheet = book.getSheetById(472693755);
-    const incoming = book.getSheetById(142619344);
-    const outgoing = book.getSheetById(62551951);
+    const book = storage ? storage.book : SpreadsheetApp.openById(id);
+    const staffSheet = storage ? storage.staff : book.getSheetById(472693755);
+    const incoming = storage ? storage.incoming : book.getSheetById(142619344);
+    const outgoing = storage ? storage.outgoing : book.getSheetById(62551951);
     if (!staffSheet || !incoming || !outgoing) fail_('Konfigurasi tab HR perlu diperiksa.');
     const names = staffSheet.getRange(2,1,Math.max(1,staffSheet.getLastRow()-1),1).getDisplayValues().map(r=>r[0]);
     const name = names.find(n => n.trim() && normalize_(n) === normalize_(p.name));
@@ -75,11 +77,10 @@ function doPost(e) {
     const fraction = (clock[0]*3600+clock[1]*60+clock[2])/86400;
     const row = target.getLastRow()+1;
     target.getRange(row,1,1,6).setValues([[received,safeText_(name),midnight,safeText_(location),fraction,photoUrl]]);
-    target.getRange(row,1).setNumberFormat('dd/MM/yyyy HH:mm:ss');
-    target.getRange(row,3).setNumberFormat('dd/MM/yyyy');
-    target.getRange(row,5).setNumberFormat('HH:mm:ss');
+    // Google Form response tables have typed columns. Preserve their formatting:
+    // setNumberFormat is forbidden and can abort the pending row write.
     SpreadsheetApp.flush();
     return json_({ok:true,duplicate:false,name,mode:p.mode,date:Utilities.formatDate(received,TZ,'dd/MM/yyyy'),time:Utilities.formatDate(received,TZ,'HH:mm:ss')});
-  } catch (error) { return json_({ok:false,message:error.publicMessage || 'Absensi belum dapat dikonfirmasi. Coba kirim ulang atau hubungi HR.'}); }
+  } catch (error) { console.error(error.stack || String(error)); return json_({ok:false,message:error.publicMessage || 'Absensi belum dapat dikonfirmasi. Coba kirim ulang atau hubungi HR.'}); }
   finally { if (locked) lock.releaseLock(); }
 }

@@ -8,7 +8,8 @@ Static, mobile-friendly form at `/absensi/`, deployed by the existing GitHub Pag
 - Choose the staff name from a searchable dropdown sourced from DATA STAFF. The backend matches against column A of DATA STAFF (case/whitespace insensitive).
 - WFO location is Kantor ARTA. WFA requires a location description.
 - Both Masuk and Pulang require a new photo captured through getUserMedia, compressed locally to JPEG (longest edge 1200 px). There is no file input or gallery option. Camera denial or absence blocks submission. Streams stop after capture, cancellation, tab hiding, or navigation. Changing staff, mode, or action discards the photo.
-- Server time in Asia/Jakarta is authoritative. Six columns A:F match the existing Absen Masuk and Absen Keluar tabs. Old rows/headers are preserved.
+- Header shows the current WIB clock; success greets check-in with “Selamat bekerja 💪😍” and checkout with “Selamat istirahat 👋☺️”.
+- Server time in Asia/Jakarta is authoritative. Six columns A:F match the existing Absen Masuk and Absen Keluar tabs. Old rows/headers and typed-column formats are preserved. Do not call setNumberFormat on Google Forms response table columns: Google rejects it and can abort pending writes.
 - One entry per staff/day/action. A script lock serializes checks and writes. Retries return the existing attendance without adding another row.
 - Checkout requires a check-in on the same Jakarta calendar day. Overnight shifts require HR correction; this MVP assumes same-day attendance.
 - A success screen requires a readable, successful backend response. Network failures never display a fabricated success.
