@@ -1,12 +1,12 @@
 const {test}=require('node:test');const assert=require('node:assert/strict');const vm=require('node:vm');const fs=require('node:fs');
 const source=fs.readFileSync(__dirname+'/../../public/absensi/app.js','utf8');
-function harness(camera){
+function harness(camera,duplicate=false){
  const elements={}; const listeners={};let stopped=0,calls=[],created=0; const watermark=[];
  function element(id){return elements[id] ||= {hidden:false,disabled:false,value:'',textContent:'',videoWidth:640,videoHeight:480,readyState:3,options:[],children:[],setAttribute(n,v){this[n]=v},setCustomValidity(v){this.validation=v},scrollIntoView(){},append(v){this.children.push(v)},addEventListener(n,f){(listeners[id+':'+n] ||= []).push(f)},removeAttribute(n){delete this[n]},replaceChildren(...v){this.options=v;this.children=[...v]},add(v){this.options.push(v)},play:async()=>{},getContext:()=>({drawImage:()=>{},save(){},restore(){},measureText:text=>({width:text.length*8}),fillRect(){},fillText(text,x,y){watermark.push({text,x,y})}}),toDataURL:()=> 'data:image/jpeg;base64,/9j/AA=='};}
  const form=element('attendance');form.elements={mode:{value:'WFO'},action:{value:'in'}};form.reportValidity=()=>true;form.reset=()=>{form.elements.mode.value='';form.elements.action.value='in'};
  const track={stop:()=>stopped++,addEventListener:()=>{}};const stream={getTracks:()=>[track],getVideoTracks:()=>[track]};
  const document={hidden:false,getElementById:element,createElement:tag=>element(tag==='canvas'?'canvas':'created-'+(++created)),addEventListener:(n,f)=>{listeners['document:'+n]=[f]}};
- const context={document,window:{ARTA_ATTENDANCE:{endpoint:'https://example.test/exec'},isSecureContext:true,addEventListener:(n,f)=>{listeners['window:'+n]=[f]}},navigator:{onLine:true,mediaDevices:{getUserMedia:camera || (async()=>stream)}},Intl,Date,Option:function(text,value){this.text=text;this.value=value},AbortController,setTimeout,clearTimeout,setInterval:()=>{},fetch:async(url,opts)=>{calls.push({url,opts});return{ok:true,json:async()=>opts?.method==='POST'?{ok:true,name:'Staff',mode:'WFO',date:'08/10/2026',time:'08:00:00'}:{ok:true,staff:['Staff']}}}};
+ const context={document,window:{ARTA_ATTENDANCE:{endpoint:'https://example.test/exec'},isSecureContext:true,addEventListener:(n,f)=>{listeners['window:'+n]=[f]}},navigator:{onLine:true,mediaDevices:{getUserMedia:camera || (async()=>stream)}},Intl,Date,Option:function(text,value){this.text=text;this.value=value},AbortController,setTimeout,clearTimeout,setInterval:()=>{},fetch:async(url,opts)=>{calls.push({url,opts});return{ok:true,json:async()=>opts?.method==='POST'?{ok:true,duplicate,name:'Staff',mode:'WFO',date:'08/10/2026',time:'08:00:00'}:{ok:true,staff:['Staff']}}}};
  vm.createContext(context);vm.runInContext(source,context);
  return{elements,form,stream,document,calls,watermark,stopped:()=>stopped,settle:()=>new Promise(r=>setImmediate(r)),fire:async(id,type,event={})=>{for(const f of listeners[id+':'+type]||[])await f(event)}};
 }
@@ -30,3 +30,5 @@ test('captured JPEG includes all watermark fields at bottom left and location ch
  assert.ok(h.watermark.every(line=>line.x>0&&line.x<100&&line.y>240&&line.y<480));
  assert.equal(h.elements.submit.disabled,false);await h.fire('location','input');assert.equal(h.elements.submit.disabled,true);assert.equal(h.elements.preview.hidden,true);
 });
+
+test('repeat submissions retain the greeting and show duplicate notice separately',async()=>{for(const action of ['in','out']){const h=harness(undefined,true);await h.settle();h.elements.name.value='Staff';await h.fire('name','input');await h.fire('name','keydown',{key:'Enter',preventDefault(){}});h.form.elements.action.value=action;await h.fire('open-camera','click');await h.fire('capture','click');await h.fire('attendance','submit',{preventDefault(){}});assert.equal(h.elements['success-title'].textContent,action==='in'?'Selamat bekerja 💪😍':'Selamat istirahat 👋☺️');assert.match(h.elements.receipt.textContent,/Absensi sudah tercatat sebelumnya/);}});
